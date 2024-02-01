@@ -32,7 +32,7 @@ class VendingMachine:
     def askNotes(self):
         if (not self.hasCurrentItem() and self.sumNotes() <= self.currentItem.price):
             return
-        while self.sumNotes() <= self.currentItem.price:
+        while self.sumNotes() < self.currentItem.price:
             self.printDiv()
             print(f"Sum Inserted: {self.sumNotes()} \n")
             noteInput = self.askInput("Insert Notes (1,5,10), 0 to cancel:")
@@ -72,17 +72,19 @@ class VendingMachine:
         sumToReturn = self.sumNotes() - self.currentItem.price
         print(f'Total inserted: {self.sumNotes()}')
         print(f'Total balance: {sumToReturn}')
+        notesToReturn = []
         while sumToReturn > 0:
             if (sumToReturn >= 10):
-                print(f'Returning note: 10')
+                notesToReturn.append(10)
                 sumToReturn -= 10
             elif (sumToReturn >= 5):
-                print(f'Returning note: 5')
+                notesToReturn.append(5)
                 sumToReturn -= 5
             else:
-                print(f'Returning note: 1')
+                notesToReturn.append(1)
                 sumToReturn -= 1
             # check if already empty
+        print(f"Returning notes: {','.join(str(i) for i in notesToReturn)}")
         self.printDiv()
 
     def selectItem(self, id: int):
